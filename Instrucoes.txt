@@ -1,0 +1,30 @@
+Desenvolver um aplicativo para a manipulação de grafos, contendo:
+
+=== Representações ===
+ 1) Representação de grafos utilizando Matriz de Adjacência
+
+ 2) Representação de grafos utilizando Lista de Adjacência
+
+
+=== Manipulação ===
+Funções básicas para manipulação de grafos em ambas representações, incluindo:
+
+ 1) Criação de um grafo com X vértices (o número de vértices deve ser inserido pelo usuário),
+
+ 2) Definição do tipo de grafo (direcionado ou não direcionado),
+
+ 3) Criação e remoção de arestas,
+
+ 4) Identificação da vizinhança de um vértice (grafo não direcionado),
+
+ 5) Identificação dos sucessores e predecessores de um vértice (grafo direcionado) ,
+
+ 6) Identificação do grau de um determinado vértice. (Observar direcionamento ou não do grafo),
+
+ 7) Testar se o grafo é simples,
+
+ 8) Testar se o grafo é regular,
+
+ 9) Testar se o grafo é completo,
+
+ 10) Testar se o grafo é bipartido.
