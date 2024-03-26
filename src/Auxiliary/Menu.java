@@ -9,12 +9,28 @@ public class Menu {
         System.out.print("\nOpção 2 - Não Direcionado"                      );
         System.out.print("\n=============================================\n");
     }
-
+    
     public static void menuRepresentacao() {
         System.out.print("\n=============================================\n");
         System.out.print("     === Mostrar grafo ==="                       );
         System.out.print("\nOpção 1 - Matriz de Adjacência"                 );
         System.out.print("\nOpção 2 - Lista de Adjacência"                  );
+        int representacaoOpcao = CheckType.getInt("\nDigite a opção desejada: ", "\n--- Opção INVÁLIDA ---");
+        switch (representacaoOpcao) {
+            case 1:
+                // Implemente a lógica para mostrar o grafo usando matriz de adjacência
+                System.out.println("\nMostrando grafo usando Matriz de Adjacência...");
+                // Chame o método ou insira o código necessário para mostrar o grafo usando matriz de adjacência
+                break;
+            case 2:
+                // Implemente a lógica para mostrar o grafo usando lista de adjacência
+                System.out.println("\nMostrando grafo usando Lista de Adjacência...");
+                // Chame o método ou insira o código necessário para mostrar o grafo usando lista de adjacência
+                break;
+            default:
+                System.out.print("\n      === ERRO === \n --- Opção INVÁLIDA ---\n");
+                break;
+        }
         System.out.print("\n=============================================\n");
     }
 
