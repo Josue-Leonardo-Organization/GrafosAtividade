@@ -1,3 +1,4 @@
+package Graph;
 import java.util.*;
 
 public class Graph {
@@ -15,7 +16,6 @@ public class Graph {
     }
 
     public void adicionarAresta(int origem, int destino) {
-        System.out.println("N de vértices:" + numVertices);
         if (origem < 0 || origem >= numVertices || destino < 0 || destino >= numVertices) {
             System.out.println("Vértice inválido!");
             return;
@@ -23,6 +23,17 @@ public class Graph {
         adjacencias.get(origem).add(destino);
         if (!direcionado) {
             adjacencias.get(destino).add(origem); // Para grafos não direcionados, adicionamos a aresta nos dois sentidos
+        }
+    }
+
+    public void excluirAresta(int origem, int destino) {
+        if (origem < 0 || origem >= numVertices || destino < 0 || destino >= numVertices) {
+            System.out.println("Vértice inválido!");
+            return;
+        }
+        adjacencias.get(origem).remove(Integer.valueOf(destino));
+        if (!direcionado) {
+            adjacencias.get(destino).remove(Integer.valueOf(origem)); // Para grafos não direcionados, removemos a aresta nos dois sentidos
         }
     }
 
@@ -62,5 +73,40 @@ public class Graph {
             }
         }
         return predecessores;
+    }
+
+    public void printAdjacencyList() {
+        for (int i = 0; i < numVertices; i++) {
+            System.out.print("|  "+ i +"  |");
+            for (int j = 0; j < adjacencias.get(i).size(); j++) {
+                System.out.print(" -->  | " + adjacencias.get(i).get(j) + " |" );
+            }
+            System.out.println();
+        }
+    }
+
+    public void printAdjacencyMatrix() {
+        int newSize = numVertices + 1;
+        int[][] newMatrix = new int[newSize][newSize];
+    
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
+                newMatrix[i][j] = adjacencias.get(i).contains(j) ? 1 : 0;
+            }
+        }
+
+        System.out.print("  | ");
+        for(int i = 0; i < numVertices; i++){
+            System.out.print(i + " | ");
+        }
+        System.out.println();
+
+        for (int i = 0; i < numVertices; i++) {
+            System.out.print(i+ " | ");
+            for (int j = 0; j < numVertices; j++) {
+                System.out.print(newMatrix[i][j] + " | ");
+            }
+            System.out.println();
+        }
     }
 }
