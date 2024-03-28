@@ -109,4 +109,89 @@ public class Graph {
             System.out.println();
         }
     }
+
+    public boolean isSimples() {
+        for (int i = 0; i < numVertices; i++) {
+            List<Integer> vizinhos = adjacencias.get(i);
+            if (vizinhos.contains(i)) { // Verifica se há laços
+                return false;
+            }
+            for (int j = 0; j < vizinhos.size(); j++) {
+                int vizinho = vizinhos.get(j);
+                if (i != vizinho && Collections.frequency(vizinhos, vizinho) > 1) { // Verifica se há arestas múltiplas
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public int grau(int vertice) {
+        if (vertice < 0 || vertice >= numVertices) {
+            System.out.println("Vértice inválido!");
+            return -1;
+        }
+        return adjacencias.get(vertice).size();
+    }
+
+    public int grauEntrada(int vertice) {
+        if (vertice < 0 || vertice >= numVertices) {
+            System.out.println("Vértice inválido!");
+            return -1;
+        }
+        int contGrauEntrada = 0;
+        for (int i = 0; i < numVertices; i++) {
+            if (i != vertice && adjacencias.get(i).contains(vertice)) {
+                contGrauEntrada++;
+            }
+        }
+        return contGrauEntrada;
+    }
+
+    public boolean isRegular() {
+        int grauPadrao = grau(0); // Grau do primeiro vértice
+        for (int i = 1; i < numVertices; i++) {
+            if (grau(i) != grauPadrao) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isRegularDirecionado() {
+        int grauSaidaPadrao = grau(0); // Grau de saída do primeiro vértice
+        for (int i = 1; i < numVertices; i++) {
+            if (grau(i) != grauSaidaPadrao) {
+                return false;
+            }
+        }
+        int grauEntradaPadrao = grauEntrada(0); //Grau de entrada do primeiro vértice
+        for (int i = 1; i < numVertices; i++) {
+            if (grauEntrada(i) != grauEntradaPadrao) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isCompleto() {
+        for (int i = 0; i < numVertices; i++) {
+            if (grau(i) != numVertices - 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isCompletoDirecionado() {
+        for (int i = 0; i < numVertices; i++) {
+            if ((grau(i) + grauEntrada(i)) != numVertices - 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
 }
+
+
