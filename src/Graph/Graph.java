@@ -191,6 +191,35 @@ public class Graph {
         }
         return true;
     }
+
+    public boolean isBipartido() {
+        int[] cor = new int[numVertices]; // Vetor para armazenar a cor de cada vértice (0: não visitado, 1: cor 1, -1: cor 2)
+        Arrays.fill(cor, 0); // Inicialmente, nenhum vértice está colorido
+
+        for (int i = 0; i < numVertices; i++) {
+            if (cor[i] == 0) { // Se o vértice não foi visitado
+                cor[i] = 1; // Colorir o vértice com a cor 1
+                Queue<Integer> fila = new LinkedList<>();
+                fila.add(i); // Adicionar o vértice à fila
+
+                while (!fila.isEmpty()) {
+                    int atual = fila.poll();
+
+                    for (int vizinho : adjacencias.get(atual)) {
+                        if (cor[vizinho] == 0) { // Se o vizinho não foi visitado
+                            cor[vizinho] = -cor[atual]; // Colorir o vizinho com a cor oposta ao vértice atual
+                            fila.add(vizinho); // Adicionar o vizinho à fila
+                        } else if (cor[vizinho] == cor[atual]) { // Se o vizinho já foi visitado e tem a mesma cor do vértice atual
+                            return false; // O grafo não é bipartido
+                        }
+                    }
+                }
+            }
+        }
+        return true; // Se nenhum conflito de cor foi encontrado, o grafo é bipartido
+    
+    }
+
     
 }
 

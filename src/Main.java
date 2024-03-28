@@ -171,6 +171,14 @@ public class Main {
                         }
                     }
                     break;
+                
+                case "9":
+                    if (graph.isBipartido()) {
+                        System.out.println("- O grafo é bipartido.");
+                    } else {
+                        System.out.println("- O grafo não é bipartido.");
+                    }
+                    break;
 
                 default:
                     System.out.print("\n      === ERRO === \n --- Opção INVÁLIDA ---\n");
