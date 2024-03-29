@@ -103,29 +103,29 @@ public class Main {
                     System.out.println( "\n=== Grau do vértice ===");
                     if(!direcionado){
                         do {
-                            System.out.print("\nDigite o vértice para identificar o grau (-1 para sair): ");
-                            vertice = sc.nextInt();
-                            if (vertice == -1) break;
-                            int grau = graph.grau(vertice);
-                            if (grau != -1){
-                                System.out.println("Grau do vértice " + vertice + ": " + grau);
+                            vertice = CheckType.getInt("\nDigite o vértice para identificar o grau (-1 para sair): ", "\n--- Vértice INVÁLIDO ---");
+                            if (vertice != -1){
+                                int grau = graph.grau(vertice);
+                                if (grau != -1){
+                                    System.out.println("Grau do vértice " + vertice + ": " + grau);
+                                }
                             }
-                        } while (true);
+                        } while (vertice != -1);
                     }
                     else{
                         do {
-                            System.out.print("\nDigite o vértice para identificar o grau de entrada e de saída (-1 para sair): ");
-                            vertice = sc.nextInt();
-                            if (vertice == -1) break;
-                            int grauEntrada = graph.grauEntrada(vertice);
-                            if (grauEntrada != -1){    
-                                System.out.println("Grau de entrada do vértice " + vertice + ": " + grauEntrada);
+                            vertice = CheckType.getInt("\nDigite o vértice para identificar o grau de entrada e de saída (-1 para sair): ", "\n--- Vértice INVÁLIDO ---");
+                            if (vertice != -1){
+                                int grauEntrada = graph.grauEntrada(vertice);
+                                if (grauEntrada != -1){    
+                                    System.out.println("Grau de entrada do vértice " + vertice + ": " + grauEntrada);
+                                }
+                                int grauSaida = graph.grau(vertice);
+                                if (grauSaida != -1){
+                                    System.out.println("Grau de saída do vértice " + vertice + ": " + grauSaida);
+                                }
                             }
-                            int grauSaida = graph.grau(vertice);
-                            if (grauSaida != -1){
-                                System.out.println("Grau de saída do vértice " + vertice + ": " + grauSaida);
-                            }
-                        } while (true);
+                        } while (vertice != -1);
                     }
                     break;
 
