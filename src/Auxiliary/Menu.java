@@ -1,5 +1,6 @@
 package Auxiliary;
 
+
 public class Menu {
     
     public static void menuDirecionado() {
@@ -9,7 +10,7 @@ public class Menu {
         System.out.print("\nOpção 2 - Não Direcionado"                      );
         System.out.print("\n=============================================\n");
     }
-
+    
     public static void menuRepresentacao() {
         System.out.print("\n=============================================\n");
         System.out.print("     === Mostrar grafo ==="                       );
