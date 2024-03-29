@@ -16,11 +16,13 @@ Após essa seleção inicial é possível:
 # Representação de grafos
 
 1) Matriz de adjacência
+
    Exemplo:
    
    ![image](https://github.com/Josue-Leonardo-Organization/GrafosAtividade/assets/110644239/ffb27f77-a320-4ee1-92e2-1f1c62fca28d)
 
 3) Lista de adjacência
+
    Exemplo:
    
    ![image](https://github.com/Josue-Leonardo-Organization/GrafosAtividade/assets/110644239/7d734efe-9277-48a2-918e-118696ca40f7)
