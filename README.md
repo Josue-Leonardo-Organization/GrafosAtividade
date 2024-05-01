@@ -1,4 +1,6 @@
-# Manipulação de grafos
+# Parte 1 - Manipulação de grafos
+
+Esta branch foi atualizada apenas até o final da parte 1 do traalho.
 
 --- Programa desenvolvido para criação e manipulação de grafos ---
 
