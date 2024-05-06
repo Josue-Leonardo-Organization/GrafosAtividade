@@ -4,7 +4,7 @@ import java.util.*;
 public class Graph {
     private int numVertices;
     private boolean direcionado;
-    private List<List<Integer>> adjacencias;
+    private List<List<Aresta>> adjacencias;
 
     public Graph(int numVertices, boolean direcionado) {
         this.numVertices = numVertices;
@@ -15,14 +15,24 @@ public class Graph {
         }
     }
 
-    public void adicionarAresta(int origem, int destino) {
+    class Aresta {
+        int destino;
+        int peso;
+    
+        public Aresta(int destino, int peso) {
+            this.destino = destino;
+            this.peso = peso;
+        }
+    }
+
+    public void adicionarAresta(int origem, int destino, int peso) {
         if (origem < 0 || origem >= numVertices || destino < 0 || destino >= numVertices) {
             System.out.println("Vértice inválido!");
             return;
         }
-        adjacencias.get(origem).add(destino);
+        adjacencias.get(origem).add(new Aresta(destino, peso));
         if (!direcionado) {
-            adjacencias.get(destino).add(origem); // Para grafos não direcionados, adicionamos a aresta nos dois sentidos
+            adjacencias.get(destino).add(new Aresta(origem, peso)); // Para grafos não direcionados, adicionamos a aresta nos dois sentidos
         }
     }
 
@@ -31,9 +41,13 @@ public class Graph {
             System.out.println("Vértice inválido!");
             return;
         }
-        adjacencias.get(origem).remove(Integer.valueOf(destino));
+        adjacencias.get(origem).removeIf(aresta -> aresta.destino == destino);
         if (!direcionado) {
-            adjacencias.get(destino).remove(Integer.valueOf(origem)); // Para grafos não direcionados, removemos a aresta nos dois sentidos
+            adjacencias.get(destino).removeIf(aresta -> aresta.destino == origem); // Para grafos não direcionados, removemos a aresta nos dois sentidos
+            System.out.println("Todas as arestas entre " + origem + " e " + destino + " foram removidas");
+        }
+        if(direcionado){
+            System.out.println("Todas as arestas de " + origem + " até " + destino + " foram removidas");
         }
     }
 
@@ -42,7 +56,11 @@ public class Graph {
             System.out.println("Vértice inválido!");
             return Collections.emptyList();
         }
-        return adjacencias.get(vertice);
+        List<Integer> vizinhos = new ArrayList<>();
+        for (Aresta aresta : adjacencias.get(vertice)) {
+            vizinhos.add(aresta.destino);
+        }
+        return vizinhos;
     }
 
     public List<Integer> sucessores(int vertice) {
@@ -54,7 +72,11 @@ public class Graph {
             System.out.println("Vértice inválido!");
             return Collections.emptyList();
         }
-        return adjacencias.get(vertice);
+        List<Integer> sucessores = new ArrayList<>();
+        for (Aresta aresta : adjacencias.get(vertice)) {
+            sucessores.add(aresta.destino);
+        }
+        return sucessores;
     }
 
     public List<Integer> predecessores(int vertice) {
@@ -68,8 +90,11 @@ public class Graph {
         }
         List<Integer> predecessores = new ArrayList<>();
         for (int i = 0; i < numVertices; i++) {
-            if (i != vertice && adjacencias.get(i).contains(vertice)) {
-                predecessores.add(i);
+            for (Aresta aresta : adjacencias.get(i)) {
+                if (aresta.destino == vertice) {
+                    predecessores.add(i);
+                    break;
+                }
             }
         }
         return predecessores;
@@ -77,34 +102,39 @@ public class Graph {
 
     public void printAdjacencyList() {
         for (int i = 0; i < numVertices; i++) {
-            System.out.print("|  "+ i +"  |");
-            for (int j = 0; j < adjacencias.get(i).size(); j++) {
-                System.out.print(" -->  | " + adjacencias.get(i).get(j) + " |" );
+            System.out.print("|  " + i + "  |");
+            for (Aresta aresta : adjacencias.get(i)) {
+                System.out.print(" -->  | " + aresta.destino + "(" + aresta.peso + ") |");
             }
             System.out.println();
         }
     }
-
+    
     public void printAdjacencyMatrix() {
         int newSize = numVertices + 1;
         int[][] newMatrix = new int[newSize][newSize];
     
         for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                newMatrix[i][j] = adjacencias.get(i).contains(j) ? 1 : 0;
+            for (Aresta aresta : adjacencias.get(i)) {
+                newMatrix[i][aresta.destino] = aresta.peso; // Preenche a matriz com o peso da aresta, se existir
             }
         }
-
+    
         System.out.print("  | ");
-        for(int i = 0; i < numVertices; i++){
+        for (int i = 0; i < numVertices; i++) {
             System.out.print(i + " | ");
         }
         System.out.println();
-
+    
         for (int i = 0; i < numVertices; i++) {
-            System.out.print(i+ " | ");
+            System.out.print(i + " | ");
             for (int j = 0; j < numVertices; j++) {
-                System.out.print(newMatrix[i][j] + " | ");
+                if(newMatrix[i][j] != 0){
+                    System.out.print(1 + " | ");
+                }
+                else{
+                    System.out.print(newMatrix[i][j] + " | ");
+                }
             }
             System.out.println();
         }
@@ -112,15 +142,17 @@ public class Graph {
 
     public boolean isSimples() {
         for (int i = 0; i < numVertices; i++) {
-            List<Integer> vizinhos = adjacencias.get(i);
-            if (vizinhos.contains(i)) { // Verifica se há laços
-                return false;
-            }
-            for (int j = 0; j < vizinhos.size(); j++) {
-                int vizinho = vizinhos.get(j);
-                if (i != vizinho && Collections.frequency(vizinhos, vizinho) > 1) { // Verifica se há arestas múltiplas
-                    return false;
+            List<Aresta> arestas = adjacencias.get(i);
+            Set<Integer> vizinhos = new HashSet<>();
+            for (Aresta aresta : arestas) {
+                int vizinho = aresta.destino;
+                if (vizinho == i) {
+                    return false; // Se houver um laço, o grafo não é simples
                 }
+                if (vizinhos.contains(vizinho)) {
+                    return false; // Se houver uma aresta múltipla, o grafo não é simples
+                }
+                vizinhos.add(vizinho);
             }
         }
         return true;
@@ -140,9 +172,11 @@ public class Graph {
             return -1;
         }
         int contGrauEntrada = 0;
-        for (int i = 0; i < numVertices; i++) {
-            if (i != vertice && adjacencias.get(i).contains(vertice)) {
-                contGrauEntrada++;
+        for (List<Aresta> arestas : adjacencias) {
+            for (Aresta aresta : arestas) {
+                if (aresta.destino == vertice) {
+                    contGrauEntrada++;
+                }
             }
         }
         return contGrauEntrada;
@@ -159,20 +193,15 @@ public class Graph {
     }
 
     public boolean isRegularDirecionado() {
-        int grauSaidaPadrao = grau(0); // Grau de saída do primeiro vértice
-        for (int i = 1; i < numVertices; i++) {
-            if (grau(i) != grauSaidaPadrao) {
-                return false;
-            }
+    int grauSaidaPadrao = grau(0); // Grau de saída do primeiro vértice
+    int grauEntradaPadrao = grauEntrada(0); // Grau de entrada do primeiro vértice
+    for (int i = 1; i < numVertices; i++) {
+        if (grau(i) != grauSaidaPadrao || grauEntrada(i) != grauEntradaPadrao) {
+            return false;
         }
-        int grauEntradaPadrao = grauEntrada(0); //Grau de entrada do primeiro vértice
-        for (int i = 1; i < numVertices; i++) {
-            if (grauEntrada(i) != grauEntradaPadrao) {
-                return false;
-            }
-        }
-        return true;
     }
+    return true;
+}
 
     public boolean isCompleto() {
         for (int i = 0; i < numVertices; i++) {
@@ -185,7 +214,8 @@ public class Graph {
 
     public boolean isCompletoDirecionado() {
         for (int i = 0; i < numVertices; i++) {
-            if ((grau(i) + grauEntrada(i)) != numVertices - 1) {
+            int grauTotal = grau(i) + grauEntrada(i);
+            if (grauTotal != numVertices - 1) {
                 return false;
             }
         }
@@ -195,17 +225,19 @@ public class Graph {
     public boolean isBipartido() {
         int[] cor = new int[numVertices]; // Vetor para armazenar a cor de cada vértice (0: não visitado, 1: cor 1, -1: cor 2)
         Arrays.fill(cor, 0); // Inicialmente, nenhum vértice está colorido
-
+    
         for (int i = 0; i < numVertices; i++) {
             if (cor[i] == 0) { // Se o vértice não foi visitado
                 cor[i] = 1; // Colorir o vértice com a cor 1
                 Queue<Integer> fila = new LinkedList<>();
                 fila.add(i); // Adicionar o vértice à fila
-
+    
                 while (!fila.isEmpty()) {
                     int atual = fila.poll();
-
-                    for (int vizinho : adjacencias.get(atual)) {
+    
+                    // Verificar arestas de saída
+                    for (Aresta aresta : adjacencias.get(atual)) {
+                        int vizinho = aresta.destino;
                         if (cor[vizinho] == 0) { // Se o vizinho não foi visitado
                             cor[vizinho] = -cor[atual]; // Colorir o vizinho com a cor oposta ao vértice atual
                             fila.add(vizinho); // Adicionar o vizinho à fila
@@ -213,12 +245,29 @@ public class Graph {
                             return false; // O grafo não é bipartido
                         }
                     }
+    
+                    // Verificar arestas de entrada (apenas para grafos direcionados)
+                    if (direcionado) {
+                        for (int j = 0; j < numVertices; j++) {
+                            for (Aresta aresta : adjacencias.get(j)) {
+                                if (aresta.destino == atual) {
+                                    int vizinho = j;
+                                    if (cor[vizinho] == 0) { // Se o vizinho não foi visitado
+                                        cor[vizinho] = -cor[atual]; // Colorir o vizinho com a cor oposta ao vértice atual
+                                        fila.add(vizinho); // Adicionar o vizinho à fila
+                                    } else if (cor[vizinho] == cor[atual]) { // Se o vizinho já foi visitado e tem a mesma cor do vértice atual
+                                        return false; // O grafo não é bipartido
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
         return true; // Se nenhum conflito de cor foi encontrado, o grafo é bipartido
-    
     }
+    
 
     
 }

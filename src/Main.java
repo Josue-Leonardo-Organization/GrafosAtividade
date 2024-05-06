@@ -9,7 +9,7 @@ public class Main {
 
         boolean direcionado;
         int quantidadeVertices;
-        int vertice, origem, destino;
+        int vertice, origem, destino, peso;
         String option = "";
 
         quantidadeVertices = CheckType.getInt("\nDigite o número de vértices desejado: ", "\n--- Número INVÁLIDO ---");
@@ -57,7 +57,8 @@ public class Main {
                         origem = CheckType.getInt("\nDigite a origem da aresta (-1 para sair): ", "\n--- Vértice INVÁLIDO ---");
                         if (origem != -1){
                             destino = CheckType.getInt("Digite o destino da aresta: ", "\n--- Vértice INVÁLIDO ---");
-                            graph.adicionarAresta(origem, destino);
+                            peso = CheckType.getInt("Digite o peso da aresta: ", "\n--- Valor INVÁLIDO ---");
+                            graph.adicionarAresta(origem, destino, peso);
                         }
                     } while (origem != -1);
                     break;
