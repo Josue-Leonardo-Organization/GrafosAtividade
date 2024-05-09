@@ -38,6 +38,10 @@ public class Main {
                             System.out.println("\nMostrando grafo usando Lista de Adjacência: ");
                             graph.printAdjacencyList();
                             break;
+                        case 70:
+                            System.out.println("\nMostrando grafo usando Matriz de Peso: ");
+                            graph.printPesoMatrix();
+                            break;
                         default:
                             System.out.print("\n      === ERRO === \n --- Opção INVÁLIDA ---\n");
                             break;
@@ -155,6 +159,46 @@ public class Main {
                     } else {
                         System.out.println("- O grafo não é bipartido.");
                     }
+                    break;
+                
+                case "10":
+                    if (direcionado) {
+                        System.out.println("Busca em Largura não é aplicável a grafos direcionados.");
+                    } else {
+                        vertice = CheckType.getInt("\nDigite o vértice incial da busca: ", "\n--- Vértice INVÁLIDO ---");
+                        System.out.println("Realizando busca em largura...");
+                        List<Integer> resultadoBFS = graph.buscaEmLargura(vertice);
+                        System.out.println("Resultado da busca em largura: " + resultadoBFS);
+                    }
+                    break;
+                
+                case "11":
+                    if (direcionado) {
+                        vertice = CheckType.getInt("\nDigite o vértice incial da busca: ", "\n--- Vértice INVÁLIDO ---");
+                        System.out.println("Realizando busca em profundidade...");
+                        List<Integer> resultadoDFS = graph.buscaEmProfundidade(vertice);
+                        System.out.println("Resultado da busca em profundidade: " + resultadoDFS);
+                    } else {
+                        vertice = CheckType.getInt("\nDigite o vértice incial da busca: ", "\n--- Vértice INVÁLIDO ---");
+                        System.out.println("Realizando busca em profundidade...");
+                        List<Integer> resultadoDFS = graph.buscaEmProfundidade(vertice);
+                        System.out.println("Resultado da busca em profundidade: " + resultadoDFS);
+                    }
+                    break;
+                
+                case "12":
+                    break;
+                
+                case "13":
+                    break;
+
+                case "14":
+                    break;
+
+                case "15":
+                    break;
+                
+                case "16":
                     break;
 
                 default:
