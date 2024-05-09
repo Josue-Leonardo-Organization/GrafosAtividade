@@ -140,6 +140,31 @@ public class Graph {
         }
     }
 
+    public void printPesoMatrix() {
+        int newSize = numVertices + 1;
+        int[][] newMatrix = new int[newSize][newSize];
+    
+        for (int i = 0; i < numVertices; i++) {
+            for (Aresta aresta : adjacencias.get(i)) {
+                newMatrix[i][aresta.destino] = aresta.peso; // Preenche a matriz com o peso da aresta, se existir
+            }
+        }
+    
+        System.out.print("  | ");
+        for (int i = 0; i < numVertices; i++) {
+            System.out.print(i + " | ");
+        }
+        System.out.println();
+    
+        for (int i = 0; i < numVertices; i++) {
+            System.out.print(i + " | ");
+            for (int j = 0; j < numVertices; j++) {
+                System.out.print(newMatrix[i][j] + " | ");
+            }
+            System.out.println();
+        }
+    }
+
     public boolean isSimples() {
         for (int i = 0; i < numVertices; i++) {
             List<Aresta> arestas = adjacencias.get(i);
@@ -268,8 +293,49 @@ public class Graph {
         return true; // Se nenhum conflito de cor foi encontrado, o grafo é bipartido
     }
     
-
+    public List<Integer> buscaEmLargura(int verticeInicial) {
+        List<Integer> resultado = new ArrayList<>();
+        boolean[] visitado = new boolean[numVertices];
+        Queue<Integer> fila = new LinkedList<>();
+        
+        visitado[verticeInicial] = true;
+        fila.add(verticeInicial);
     
+        while (!fila.isEmpty()) {
+            int vertice = fila.poll();
+            resultado.add(vertice);
+    
+            for (Aresta aresta : adjacencias.get(vertice)) {
+                int vizinho = aresta.destino;
+                if (!visitado[vizinho]) {
+                    visitado[vizinho] = true;
+                    fila.add(vizinho);
+                }
+            }
+        }
+    
+        return resultado;
+    }
+
+    public List<Integer> buscaEmProfundidade(int verticeInicial) {
+        List<Integer> resultado = new ArrayList<>();
+        boolean[] visitado = new boolean[numVertices];
+        dfs(verticeInicial, visitado, resultado);
+        return resultado;
+    }
+    
+    private void dfs(int vertice, boolean[] visitado, List<Integer> resultado) {
+        visitado[vertice] = true;
+        resultado.add(vertice);
+    
+        for (Aresta aresta : adjacencias.get(vertice)) {
+            int vizinho = aresta.destino;
+            if (!visitado[vizinho]) {
+                dfs(vizinho, visitado, resultado);
+            }
+        }
+    }
+
 }
 
 
