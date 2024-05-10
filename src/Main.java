@@ -19,7 +19,7 @@ public class Main {
 
             switch (option) {
                 case 1000:
-                graph.MetodoKruskal();
+                    graph.MetodoKruskal();
                 break;
 
                 case 0:
@@ -161,9 +161,12 @@ public class Main {
                     }
                     break;
                 
-                case "10":
+                case 10:
                     if (direcionado) {
-                        System.out.println("Busca em Largura não é aplicável a grafos direcionados.");
+                        vertice = CheckType.getInt("\nDigite o vértice incial da busca: ", "\n--- Vértice INVÁLIDO ---");
+                        System.out.println("Realizando busca em largura...");
+                        List<Integer> resultadoBFS = graph.buscaEmLargura(vertice);
+                        System.out.println("Resultado da busca em largura: " + resultadoBFS);
                     } else {
                         vertice = CheckType.getInt("\nDigite o vértice incial da busca: ", "\n--- Vértice INVÁLIDO ---");
                         System.out.println("Realizando busca em largura...");
@@ -172,33 +175,46 @@ public class Main {
                     }
                     break;
                 
-                case "11":
+                case 11:
                     if (direcionado) {
                         vertice = CheckType.getInt("\nDigite o vértice incial da busca: ", "\n--- Vértice INVÁLIDO ---");
                         System.out.println("Realizando busca em profundidade...");
-                        List<Integer> resultadoDFS = graph.buscaEmProfundidade(vertice);
+                        Map<String, List<Integer>> resultadoDFS = graph.buscaEmProfundidade(vertice);
                         System.out.println("Resultado da busca em profundidade: " + resultadoDFS);
                     } else {
                         vertice = CheckType.getInt("\nDigite o vértice incial da busca: ", "\n--- Vértice INVÁLIDO ---");
                         System.out.println("Realizando busca em profundidade...");
-                        List<Integer> resultadoDFS = graph.buscaEmProfundidade(vertice);
+                        Map<String, List<Integer>> resultadoDFS = graph.buscaEmProfundidade(vertice);
                         System.out.println("Resultado da busca em profundidade: " + resultadoDFS);
                     }
                     break;
                 
-                case "12":
+                case 12:
+                    System.out.println("Realizando ordenação topológica...");
+                    List<Integer> ordenacao = graph.ordenacaoTopologica();
+                    System.out.println("Resultado da ordenação: " + ordenacao);
                     break;
                 
-                case "13":
+                case 13:
+                    graph.MetodoKruskal();
                     break;
 
-                case "14":
+                case 14:
+                    boolean conexo = graph.isConexo();
+                    if(conexo==true){
+                        System.out.println("O grafo é conexo.");
+                    }
+                    else{
+                        System.out.println("O grafo não é conexo.");
+                    }
                     break;
 
-                case "15":
-                    break;
-                
-                case "16":
+                case 15:
+                    origem = CheckType.getInt("\nDigite a origem do caminho (-1 para sair): ", "\n--- Vértice INVÁLIDO ---");
+                    if (origem != -1){
+                        Map <Integer, Integer> caminhoMinimo = graph.caminhoMinimo(origem);
+                        System.out.println("Caminho mínimo: " + caminhoMinimo);
+                    }
                     break;
 
                 default:

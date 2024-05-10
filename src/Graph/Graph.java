@@ -151,37 +151,36 @@ public class Graph {
 
 
 // ===================== Check the degree of a vertex =====================
-public int grau(int vertice) {
-    if (vertice < 0 || vertice >= numVertices) {
-        System.out.println("Vértice inválido!");
-        return -1;
+    public int grau(int vertice) {
+        if (vertice < 0 || vertice >= numVertices) {
+            System.out.println("Vértice inválido!");
+            return -1;
+        }
+        return adjacencias.get(vertice).size();
     }
-    return adjacencias.get(vertice).size();
-}
 
-public int grauEntrada(int vertice) {
-    if (!direcionado) {
-        System.out.println("Operação válida apenas para grafos direcionados!");
-        return -1;
-    }
-    if (vertice < 0 || vertice >= numVertices) {
-        System.out.println("Vértice inválido!");
-        return -1;
-    }
-    int contGrauEntrada = 0;
-    for (List<Aresta> arestas : adjacencias) {
-        for (Aresta aresta : arestas) {
-            if (aresta.destino == vertice) {
-                contGrauEntrada++;
+    public int grauEntrada(int vertice) {
+        if (!direcionado) {
+            System.out.println("Operação válida apenas para grafos direcionados!");
+            return -1;
+        }
+        if (vertice < 0 || vertice >= numVertices) {
+            System.out.println("Vértice inválido!");
+            return -1;
+        }
+        int contGrauEntrada = 0;
+        for (List<Aresta> arestas : adjacencias) {
+            for (Aresta aresta : arestas) {
+                if (aresta.destino == vertice) {
+                    contGrauEntrada++;
+                }
             }
         }
+        return contGrauEntrada;
     }
-    return contGrauEntrada;
-}
-
 
 // ===================== Check what the graph is =====================
-=======
+
     public void printPesoMatrix() {
         int newSize = numVertices + 1;
         int[][] newMatrix = new int[newSize][newSize];
@@ -206,7 +205,6 @@ public int grauEntrada(int vertice) {
             System.out.println();
         }
     }
-
 
     public boolean isSimples() {
         for (int i = 0; i < numVertices; i++) {
@@ -311,48 +309,46 @@ public int grauEntrada(int vertice) {
         return true; // Se nenhum conflito de cor foi encontrado, o grafo é bipartido
     }   
 
-
-  public List<Aresta> MetodoKruskal() {
-    List<Aresta> arestasAGM = new ArrayList<>();
-    
-    List<Aresta> todasArestas = new ArrayList<>();
-    for (int i = 0; i < numVertices; i++) {
-        todasArestas.addAll(adjacencias.get(i));
-    }
-    todasArestas.sort(Comparator.comparingInt(a -> a.peso));
-    
-    Set<Integer> verticesAGM = new HashSet<>();
-    for (int i = 0; i < numVertices; i++) {
-        verticesAGM.add(i);
-    }
-    
-
-    arestasAGM.add(todasArestas.get(0));
-    int j = 1;
-    
-    while (arestasAGM.size() < numVertices - 1) {
-        Aresta aresta = todasArestas.get(j++);
-        int origem = aresta.origem;
-        int destino = aresta.destino;
+    public List<Aresta> MetodoKruskal() {
+        List<Aresta> arestasAGM = new ArrayList<>();
         
-        if (!formaCiclo(arestasAGM, origem, destino)) {
-            arestasAGM.add(aresta);
-            verticesAGM.remove(origem);
-            verticesAGM.remove(destino);
+        List<Aresta> todasArestas = new ArrayList<>();
+        for (int i = 0; i < numVertices; i++) {
+            todasArestas.addAll(adjacencias.get(i));
         }
-    }
+        todasArestas.sort(Comparator.comparingInt(a -> a.peso));
+        
+        Set<Integer> verticesAGM = new HashSet<>();
+        for (int i = 0; i < numVertices; i++) {
+            verticesAGM.add(i);
+        }
+        
 
-    System.out.println("Árvore Geradora Mínima:");
-    int pesoTotal = 0;
-    for (Aresta aresta : arestasAGM) {
-        System.out.println(aresta.origem + " - " + aresta.destino + " (" + aresta.peso + ")");
-        pesoTotal += aresta.peso;
-    }
-    System.out.println("Peso total: " + pesoTotal);
-    
-    return arestasAGM;
-}
+        arestasAGM.add(todasArestas.get(0));
+        int j = 1;
+        
+        while (arestasAGM.size() < numVertices - 1) {
+            Aresta aresta = todasArestas.get(j++);
+            int origem = aresta.origem;
+            int destino = aresta.destino;
+            
+            if (!formaCiclo(arestasAGM, origem, destino)) {
+                arestasAGM.add(aresta);
+                verticesAGM.remove(origem);
+                verticesAGM.remove(destino);
+            }
+        }
 
+        System.out.println("Árvore Geradora Mínima:");
+        int pesoTotal = 0;
+        for (Aresta aresta : arestasAGM) {
+            System.out.println(aresta.origem + " - " + aresta.destino + " (" + aresta.peso + ")");
+            pesoTotal += aresta.peso;
+        }
+        System.out.println("Peso total: " + pesoTotal);
+        
+        return arestasAGM;
+    }
 
     private boolean formaCiclo(List<Aresta> arestasAGM, int origem, int destino) {
         Set<Integer> visitados = new HashSet<>();
@@ -377,49 +373,131 @@ public int grauEntrada(int vertice) {
             }
         }
         return false; // Não forma ciclo
-=======
-    public List<Integer> buscaEmLargura(int verticeInicial) {
-        List<Integer> resultado = new ArrayList<>();
-        boolean[] visitado = new boolean[numVertices];
+    }
+
+    public List<Integer> buscaEmLargura(int inicio) {
+        List<Integer> visitados = new ArrayList<>();
         Queue<Integer> fila = new LinkedList<>();
-        
-        visitado[verticeInicial] = true;
-        fila.add(verticeInicial);
-    
+        fila.add(inicio);
+        visitados.add(inicio);
+
         while (!fila.isEmpty()) {
             int vertice = fila.poll();
-            resultado.add(vertice);
-    
             for (Aresta aresta : adjacencias.get(vertice)) {
                 int vizinho = aresta.destino;
-                if (!visitado[vizinho]) {
-                    visitado[vizinho] = true;
+                if (!visitados.contains(vizinho)) {
+                    visitados.add(vizinho);
                     fila.add(vizinho);
                 }
             }
         }
-    
+        return visitados;
+    } 
+
+    public Map<String, List<Integer>> buscaEmProfundidade(int inicio) {
+        List<Integer> visitados = new ArrayList<>();
+        List<Integer> explorados = new ArrayList<>();
+        int[] tempo = new int[3]; // tempo[0]: tempo atual, tempo[1]: tempo de descoberta, tempo[2]: tempo de finalização
+        boolean[] visitado = new boolean[numVertices];
+
+        dfs(inicio, visitados, explorados, tempo, visitado);
+
+        Map<String, List<Integer>> resultado = new HashMap<>();
+        resultado.put("visitados", visitados);
+        resultado.put("explorados", explorados);
         return resultado;
     }
 
-    public List<Integer> buscaEmProfundidade(int verticeInicial) {
-        List<Integer> resultado = new ArrayList<>();
-        boolean[] visitado = new boolean[numVertices];
-        dfs(verticeInicial, visitado, resultado);
-        return resultado;
-    }
-    
-    private void dfs(int vertice, boolean[] visitado, List<Integer> resultado) {
+    private void dfs(int vertice, List<Integer> visitados, List<Integer> explorados, int[] tempo, boolean[] visitado) {
         visitado[vertice] = true;
-        resultado.add(vertice);
-    
+        tempo[0]++; // Incrementa o tempo
+        visitados.add(vertice); // Adiciona o vértice à lista de visitados
+        tempo[1] = tempo[0]; // Define o tempo de descoberta do vértice
+
         for (Aresta aresta : adjacencias.get(vertice)) {
             int vizinho = aresta.destino;
             if (!visitado[vizinho]) {
-                dfs(vizinho, visitado, resultado);
+                dfs(vizinho, visitados, explorados, tempo, visitado);
             }
         }
 
+        tempo[0]++; // Incrementa o tempo novamente
+        explorados.add(vertice); // Adiciona o vértice à lista de explorados
+        tempo[2] = tempo[0]; // Define o tempo de finalização do vértice
+    }
+
+    public List<Integer> ordenacaoTopologica() {
+        List<Integer> ordenacao = new ArrayList<>();
+        Set<Integer> visitados = new HashSet<>();
+    
+        for (int i = 0; i < numVertices; i++) {
+            if (!visitados.contains(i)) {
+                dfsOrdenacaoTopologica(i, visitados, ordenacao);
+            }
+        }
+    
+        Collections.reverse(ordenacao); // Inverte a ordem para obter a ordenação topológica correta
+        return ordenacao;
+    }
+    
+    private void dfsOrdenacaoTopologica(int vertice, Set<Integer> visitados, List<Integer> ordenacao) {
+        visitados.add(vertice);
+        for (Aresta aresta : adjacencias.get(vertice)) {
+            int vizinho = aresta.destino;
+            if (!visitados.contains(vizinho)) {
+                dfsOrdenacaoTopologica(vizinho, visitados, ordenacao);
+            }
+        }
+        ordenacao.add(vertice);
+    }
+
+    public boolean isConexo() {
+        boolean[] visitado = new boolean[numVertices];
+        dfsConexo(0, visitado); // Iniciando a busca em profundidade a partir do vértice 0
+    
+        // Verificando se todos os vértices foram visitados
+        for (boolean v : visitado) {
+            if (!v) {
+                return false; // Se algum vértice não foi visitado, o grafo não é conexo
+            }
+        }
+        return true; // Todos os vértices foram visitados, o grafo é conexo
+    }
+    
+    private void dfsConexo(int vertice, boolean[] visitado) {
+        visitado[vertice] = true;
+        for (Aresta aresta : adjacencias.get(vertice)) {
+            int vizinho = aresta.destino;
+            if (!visitado[vizinho]) {
+                dfsConexo(vizinho, visitado);
+            }
+        }
+    }
+    
+    public Map<Integer, Integer> caminhoMinimo(int origem) {
+        Map<Integer, Integer> distancias = new HashMap<>();
+        distancias.put(origem, 0);
+    
+        PriorityQueue<Integer> filaPrioridade = new PriorityQueue<>(Comparator.comparingInt(distancias::get));
+        filaPrioridade.add(origem);
+    
+        while (!filaPrioridade.isEmpty()) {
+            int vertice = filaPrioridade.poll();
+            int distanciaVertice = distancias.get(vertice);
+    
+            for (Aresta aresta : adjacencias.get(vertice)) {
+                int vizinho = aresta.destino;
+                int pesoAresta = aresta.peso;
+                int distanciaAtualizada = distanciaVertice + pesoAresta;
+    
+                if (!distancias.containsKey(vizinho) || distanciaAtualizada < distancias.get(vizinho)) {
+                    distancias.put(vizinho, distanciaAtualizada);
+                    filaPrioridade.add(vizinho);
+                }
+            }
+        }
+    
+        return distancias;
     }
 
 }
