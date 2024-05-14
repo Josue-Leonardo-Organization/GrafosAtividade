@@ -33,6 +33,12 @@ public class Menu {
             System.out.print("\n   Opção 7 - Testar se o grafo é regular"                               );
             System.out.print("\n   Opção 8 - Testar se o grafo é completo"                              );
             System.out.print("\n   Opção 9 - Testar se o grafo é bipartido"                             );
+            System.out.print("\n   Opção 10 - Busca em largura"                                         );
+            System.out.print("\n   Opção 11 - Busca em profundidade"                                    );
+            System.out.print("\n   Opção 12 - Ordenação topológica"                                     );
+            System.out.print("\n   Opção 13 - AGM"                                                      );
+            System.out.print("\n   Opção 14 - Testar se o grafo é conexo"                               );
+            System.out.print("\n   Opção 15 - Identificar o caminho mínimo entre dois vértices"         );
             System.out.print("\n===================================================================\n"  );
         
         }
@@ -49,6 +55,12 @@ public class Menu {
             System.out.print("\n   Opção 7 - Testar se o grafo é regular"                               );
             System.out.print("\n   Opção 8 - Testar se o grafo é completo"                              );
             System.out.print("\n   Opção 9 - Testar se o grafo é bipartido"                             );
+            System.out.print("\n   Opção 10 - Busca em largura"                                         );
+            System.out.print("\n   Opção 11 - Busca em profundidade"                                    );
+            System.out.print("\n   Opção 12 - Ordenação topológica"                                     );
+            System.out.print("\n   Opção 13 - AGM"                                                      );
+            System.out.print("\n   Opção 14 - Testar se o grafo é conexo"                               );
+            System.out.print("\n   Opção 15 - Identificar o caminho mínimo entre dois vértices"         );
             System.out.print("\n===================================================================\n"  );
         }
     }
