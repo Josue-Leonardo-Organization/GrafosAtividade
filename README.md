@@ -26,8 +26,9 @@ Após essa seleção inicial é possível:
    
    ![image](https://github.com/Josue-Leonardo-Organization/GrafosAtividade/assets/110644239/ffb27f77-a320-4ee1-92e2-1f1c62fca28d)
 
-2) Lista de adjacência
+2) Lista de adjacência(com o peso de cada aresta entre parênteses)
 
    Exemplo:
    
-   ![image](https://github.com/Josue-Leonardo-Organization/GrafosAtividade/assets/110644239/7d734efe-9277-48a2-918e-118696ca40f7)
+   ![image](https://github.com/Josue-Leonardo-Organization/GrafosAtividade/assets/143439207/997c235e-f245-41ff-84d7-6302defbcd4b)
+
