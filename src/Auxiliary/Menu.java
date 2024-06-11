@@ -39,6 +39,7 @@ public class Menu {
             System.out.print("\n   Opção 13 - AGM"                                                      );
             System.out.print("\n   Opção 14 - Testar se o grafo é conexo"                               );
             System.out.print("\n   Opção 15 - Identificar o caminho mínimo entre dois vértices"         );
+            System.out.print("\n   Opção 16 - Fluxo máximo - Problema dos médicos"                      );
             System.out.print("\n===================================================================\n"  );
         
         }
