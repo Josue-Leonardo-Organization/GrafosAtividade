@@ -1,4 +1,8 @@
 import java.util.*;
+
+import Atividade3.DoctorsWithoutWeekends;
+import Atividade3.Medico;
+import Atividade3.PeriodoFerias;
 import Auxiliary.*;
 import Graph.Graph;
 
@@ -8,7 +12,8 @@ public class Main {
         
         boolean direcionado = IsDirected.directedOrNot();
         int quantidadeVertices = CheckType.getInt("\nDigite o número de vértices desejado: ", "\n--- Número INVÁLIDO ---");
-        
+        int op;
+
         Graph graph = new Graph(quantidadeVertices, direcionado);
         
         int option, vertice, origem, destino, peso;
@@ -214,6 +219,55 @@ public class Main {
                     if (origem != -1){
                         Map <Integer, Integer> caminhoMinimo = graph.caminhoMinimo(origem);
                         System.out.println("Caminho mínimo: " + caminhoMinimo);
+                    }
+                    break;
+
+                case 16:
+                    if(direcionado){
+                        int n = CheckType.getInt("Digite o número de médicos: ", "\n--- Valor INVÁLIDO ---");
+                        int somaDias = 0, cont = 0;
+
+                        List<Medico> medicos = new ArrayList<>();
+                        for (int i = 0; i < n; i++) {
+                            int diasDisponiveisCount = CheckType.getInt("\nDigite o número de dias disponíveis do médico " + (i + 1) + ": ", "\n--- Valor INVÁLIDO ---");
+                            Set<Integer> diasDisponiveis = new HashSet<>();
+                            for (int j = 0; j < diasDisponiveisCount; j++) {
+                                diasDisponiveis.add(CheckType.getInt("\nDigite o " + (j + 1) + "º dia disponível do médico " + (i + 1) + ": \n", "\n--- Valor INVÁLIDO ---"));
+                            }
+                            medicos.add(new Medico(i + 1, diasDisponiveis));
+                        }
+
+                        int k = CheckType.getInt("\nDigite o número de períodos de férias: ", "\n--- Valor INVÁLIDO ---");
+
+                        List<PeriodoFerias> periodos = new ArrayList<>();
+                        for (int i = 0; i < k; i++) {
+                            System.out.print("Digite o número de dias do período de férias " + (i + 1) + ": ");
+                            int diasCount = CheckType.getInt("","");
+                            somaDias += diasCount;
+                            Set<Integer> dias = new HashSet<>();
+                            for (int j = 0; j < diasCount; j++) {
+                                
+                                dias.add(CheckType.getInt("\nDigite o " + (j + 1) + "º dia do " + (i + 1) + "º período: \n","\n--- Valor INVÁLIDO ---"));
+                            }
+                            periodos.add(new PeriodoFerias(i + 1, dias));
+                        }
+
+                        System.out.print("Digite o valor de c (máximo de dias que um médico pode trabalhar): ");
+                        int c = CheckType.getInt("","");
+
+                        Map<Integer, Integer> atribuicao = DoctorsWithoutWeekends.obterAtribuicaoMedicos(medicos, periodos, c);
+                        if (atribuicao != null) {
+                            System.out.println("Atribuição de médicos:");
+                            for (Map.Entry<Integer, Integer> entry : atribuicao.entrySet()) {
+                                System.out.println("Dia " + entry.getKey() + " -> Médico " + entry.getValue());
+                                cont++;
+                            }
+                        } else {
+                            System.out.println("Não é possível fazer a atribuição.");
+                        }
+                    }
+                    else{
+                        System.out.print("\n      === ERRO === \n --- Opção INVÁLIDA ---\n");
                     }
                     break;
 
